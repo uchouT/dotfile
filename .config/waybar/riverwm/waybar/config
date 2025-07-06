@@ -1,0 +1,117 @@
+{
+	"include" : ["$HOME/.config/waybar/module"],
+	"layer": "top",
+	"modules-left": ["custom/launcher","cpu","memory","network","bluetooth","custom/swaync","tray"],
+	"modules-center": ["hyprland/workspaces"],
+	"modules-right": ["custom/wallpaper","backlight","pulseaudio","clock", "battery","custom/power"],
+	
+	"pulseaudio": {
+		"scroll-step": 5,
+		"format": "{icon} {volume: >3}%",
+        	"format-bluetooth": "{icon} {volume: >3}%",
+	        "format-muted": "󰝟  muted",
+                "format-icons": {
+      			"headphones": "",
+		        "handsfree": "",
+		        "headset": "",
+                        "phone": "",
+		        "portable": "",
+		        "car": "",
+	 	        "default": ["", ""]
+    		},
+    		"on-click": "pavucontrol",
+    // "on-scroll-up": "pamixer -ui 2 && pamixer --get-volume > $SWAYSOCK.wob",
+    // "on-scroll-down": "pamixer -ud 2 && pamixer --get-volume > $SWAYSOCK.wob"
+    "on-scroll-up": "pactl set-sink-volume @DEFAULT_SINK@ +5%",
+    "on-scroll-down": "pactl set-sink-volume @DEFAULT_SINK@ -5%"
+  },
+	"hyprland/workspaces": {
+            "format": "{icon}",
+            "format-icons": {
+                "active": "",
+                "default": "",
+                "empty": ""
+            },
+            "persistent-workspaces": {
+                "*": [ 1,2,3,4,5 ]
+            }
+        },
+	"network": {
+            "format": "⚠  Disabled",
+            "format-wifi": "  {signalStrength}%",
+            "format-ethernet": "  Wired",
+            "format-disconnected": "⚠  Disconnected",
+            "tooltip-format": " {ifname} via {gwaddri}",
+            "tooltip-format-wifi": "  {essid}",
+            "tooltip-format-ethernet": "  {ifname} ({ipaddr}/{cidr})",
+            "tooltip-format-disconnected": "⚠  Disconnected",
+            "on-click": "kitty nmtui"
+  		},
+    "bluetooth": {
+	"format": "󰂯 {status}",
+	"format-connected": "󰂯 {device_alias}",
+	"format-connected-battery": "󰂯  {device_battery_percentage}%",
+	// "format-device-preference": [ "device1", "device2" ], // preference list deciding the displayed device
+	"tooltip-format": "{controller_alias}\t{controller_address}\n\n{num_connections} connected",
+	"tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{num_connections} connected\n\n{device_enumerate}",
+	"tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
+	"tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_address}\t{device_battery_percentage}%",
+	"on-click":"blueman-manager"
+	},
+    "backlight": {
+	"tooltip": false,
+	"format": " {}%",
+	"interval":1,
+        "on-scroll-up": "light -A 5",
+	"on-scroll-down": "light -U 5"
+	},
+    "battery": {
+        "states": {
+            "good": 85,
+            "warning": 40,
+            "critical": 20
+        },
+        "format": "{icon}  {capacity}%",
+        "format-charging": " {capacity}%",
+        "format-plugged": " {capacity}%",
+        "format-alt": "{time} {icon}",
+        "format-icons": ["", "", "", "", ""]
+    },
+	"tray":{
+		"icon-size":18,
+		"spacing": 10
+	},
+    "clock": {
+	"format": " {:%H:%M  %b,%d}"
+    },
+    "cpu": {
+        "interval": 15,
+        "format": " {}%",
+        "max-length": 10
+    },
+    "memory": {
+        "interval": 30,
+        "format": " {}%",
+        "max-length": 10
+    },
+    "custom/launcher":{
+        "format": " ",
+        "on-click": "rofi -show drun",
+        "on-click-right": "killall rofi"
+    },
+    "custom/power":{
+        "format": " ",
+        "on-click": "bash ~/.config/hypr/scripts/Wlogout.sh"
+    },
+    "custom/updates":{
+        "format": "{} Update(s)",
+        "exec": "checkupdates | wc -l",
+        "exec-if": "[[ $(checkupdates | wc -l) != 0 ]]",
+        "interval": 15,
+        "on-click": "alacritty -e paru -Syu && notify-send 'The system has been updated' "
+    },
+    "custom/wallpaper":{
+        "format":" ",
+        "on-click": "bash ~/.config/hypr/UserScripts/WallpaperSelect.sh"
+    }
+}

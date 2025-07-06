@@ -1,0 +1,6 @@
+[submodule ".config/zsh/plugin/fzf-tab"]
+	path = .config/zsh/plugin/fzf-tab
+	url = https://github.com/Aloxaf/fzf-tab.git
+[submodule ".config/nvim"]
+	path = .config/nvim
+	url = https://github.com/uchouT/kickstart.nvim.git
