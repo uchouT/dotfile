@@ -11,3 +11,6 @@ alias kat="~/.config/zsh/scripts/kat.sh"
 [[ -f /home/i/.dart-cli-completion/zsh-config.zsh ]] && . /home/i/.dart-cli-completion/zsh-config.zsh || true
 ## [/Completion]
 
+
+export PATH=/opt/x86_64-linux-musl-cross/bin:$PATH
+export PATH=/opt/riscv64-linux-musl-cross/bin:$PATH
