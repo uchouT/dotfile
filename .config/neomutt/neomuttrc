@@ -1,0 +1,63 @@
+# ========================================
+# 1. Zoho Pro 账号与服务器配置
+# ========================================
+set realname = "uchouT"
+set from = "i@uchout.moe"
+set use_from = yes
+
+# IMAP 设置 (接收邮件 - SSL/993)
+set imap_user = "i@uchout.moe"
+set imap_pass = "HEjjPD1bW36N"
+set folder = "imaps://imappro.zoho.com:993/"
+set spoolfile = "+INBOX"
+set postponed = "+Drafts"
+set record = "+Sent"
+set copy = no
+set trash = "+Trash"
+
+# SMTP 设置 (发送邮件 - SSL/465)
+set smtp_url = "smtps://i@uchout.moe@smtppro.zoho.com:465/"
+set smtp_pass = $imap_pass
+
+# ========================================
+# 2. FOSS 纯文本规范与换行 (72 字符)
+# ========================================
+set send_charset = "us-ascii:utf-8"
+set text_flowed = no
+set wrap = 72
+set editor = "nvim -c 'set filetype=mail' -c 'set textwidth=72' -c 'set wrap' -c 'set spell'"
+
+# ========================================
+# 5. 文件夹与侧边栏 (Sidebar) 配置
+# ========================================
+
+# 自动向 Zoho 服务器请求并列出所有已订阅（即你创建的）文件夹
+set imap_check_subscribed = yes
+
+# 如果你想强制 NeoMutt 始终监控某些特定的文件夹是否有新邮件，可以手动指定：
+# mailboxes =INBOX =Drafts =Sent =Trash ="你的自定义文件夹1" ="Project-X"
+
+# 开启侧边栏
+set sidebar_visible = yes
+# 侧边栏宽度
+set sidebar_width = 25
+# 侧边栏只显示文件夹名称，不显示完整的 IMAP 路径
+set sidebar_short_path = yes
+# 侧边栏的显示格式：显示文件夹名、未读邮件数等
+set sidebar_format = "%B%?F? [%F]?%* %?N?%N/?%S"
+# 侧边栏的颜色设置（适配大多数终端主题）
+color sidebar_new color221 color233   # 有新邮件的文件夹高亮
+color sidebar_indicator color233 color109 # 当前选中的文件夹高亮
+
+set date_format = "%Y-%m-%d %H:%M"
+# ========================================
+# 6. 侧边栏快捷键绑定 (类似 Vim/Neovim 逻辑)
+# ========================================
+# 使用 Ctrl+j / Ctrl+k 在侧边栏上下切换文件夹
+bind index,pager \Cj sidebar-next
+bind index,pager \Ck sidebar-prev
+
+# 使用 Ctrl+o 打开（进入）选中的文件夹
+bind index,pager \Co sidebar-open
+
+bind index,pager \\ sidebar-toggle-visible

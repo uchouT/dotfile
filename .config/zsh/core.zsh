@@ -20,8 +20,6 @@ function clear-screen-and-redraw() {
 }
 zle -N clear-screen-and-redraw
 bindkey '^L' clear-screen-and-redraw
-bindkey -M vicmd '1' beginning-of-line  # 让 1 跳到行首
-bindkey -M vicmd '0' end-of-line        # 让 0 跳到行尾
 
 # End of lines configured by zsh-newuser-install
 # 避免重复历史记录
@@ -55,5 +53,10 @@ alias ls='ls --color=auto'
 alias ll='ls -ahl --color=auto'
 alias grep='grep --color=auto'
 alias nv='nvim'
+
+
+alias crash="bash /usr/share/ShellCrash/menu.sh"
+export CRASHDIR="/usr/share/ShellCrash"
+
 alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 export KEYTIMEOUT=5
