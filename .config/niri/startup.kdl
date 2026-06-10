@@ -1,0 +1,9 @@
+spawn-at-startup "awww-daemon"
+spawn-at-startup "awww-daemon" "-n" "overview"
+spawn-at-startup "waybar"
+spawn-at-startup "hypridle"
+spawn-at-startup "/usr/lib/hyprpolkitagent/hyprpolkitagent"
+
+spawn-sh-at-startup "wl-paste --type text --watch cliphist store"
+spawn-sh-at-startup "wl-paste --type image --watch cliphist store"
+spawn-sh-at-startup "dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway & /usr/lib/xdg-desktop-portal-wlr"

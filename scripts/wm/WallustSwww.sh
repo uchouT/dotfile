@@ -1,39 +1,31 @@
 #!/bin/bash
-# /* ---- 💫 https://github.com/JaKooLit 💫 ---- */  ##
-# Wallust Colors for current wallpaper
+#!/usr/bin/env bash
 
-# Define the path to the awww cache directory
-cache_dir="$HOME/.cache/awww/"
-
-# Get a list of monitor outputs
-monitor_outputs=($(ls "$cache_dir"))
-
-# Initialize a flag to determine if the ln command was executed
-ln_success=false
-
-# Get current focused monitor
-current_monitor=$(hyprctl monitors | awk '/^Monitor/{name=$2} /focused: yes/{print name}')
-echo $current_monitor
-# Construct the full path to the cache file
-cache_file="$cache_dir$current_monitor"
-echo $cache_file
-# Check if the cache file exists for the current monitor output
-if [ -f "$cache_file" ]; then
-    # Get the wallpaper path from the cache file
-    wallpaper_path=$(grep -v 'Lanczos3' "$cache_file" | head -n 1)
-    echo $wallpaper_path
-    # symlink the wallpaper to the location Rofi can access
-    if ln -sf "$wallpaper_path" "$HOME/.config/rofi/.current_wallpaper"; then
-        ln_success=true  # Set the flag to true upon successful execution
-    fi
-    # copy the wallpaper for wallpaper effects
-	cp -r "$wallpaper_path" "$HOME/.config/hypr/wallpaper_effects/.wallpaper_current"
+if [ -z "$1" ]; then
+    echo "错误: 请提供图片路径！"
+    echo "用法: $0 /path/to/wallpaper.png"
+    exit 1
 fi
 
-# Check the flag before executing further commands
-if [ "$ln_success" = true ]; then
-    # execute wallust
-	echo 'about to execute wallust'
-    # execute wallust skipping tty and terminal changes
+wallpaper_path=$(realpath "$1")
+
+if [ ! -f "$wallpaper_path" ]; then
+    echo "错误: 找不到文件 '$wallpaper_path'"
+    exit 1
+fi
+
+rofi_wallpaper_target="$HOME/.config/rofi/.current_wallpaper"
+hypr_wallpaper_target="$HOME/.config/hypr/wallpaper_effects/.wallpaper_current"
+mkdir -p "$(dirname "$rofi_wallpaper_target")"
+
+if ln -sf "$wallpaper_path" "$rofi_wallpaper_target" && ln -sf "$wallpaper_path" "$hypr_wallpaper_target"; then
+    echo "成功: 已将壁纸同步至 Rofi && Hypr 缓存"
+    
+    echo "正在运行 wallust 提取色彩调色盘..."
     wallust run "$wallpaper_path" -s &
+else
+    echo "错误: 创建 Rofi 壁纸软链接失败"
+    exit 1
 fi
+
+exit 0
