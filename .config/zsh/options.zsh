@@ -1,0 +1,3 @@
+setopt NO_NOMATCH
+
+export KEYTIMEOUT=5

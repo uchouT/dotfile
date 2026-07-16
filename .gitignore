@@ -1,1 +1,8 @@
 .config/aerc/accounts.conf
+
+# Zsh machine-local and generated state
+.config/zsh/.zsh_plugins.zsh
+.config/zsh/env.local.zsh
+.config/zsh/local.zsh
+.histfile
+.zcompdump*

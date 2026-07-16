@@ -1,0 +1,12 @@
+# Completion must be initialized before fzf-tab and after fpath is populated.
+mattmc3/ez-compinit
+zsh-users/zsh-completions kind:fpath path:src
+
+# zsh-z binds Tab, so fzf-tab must load after it and take the final binding.
+agkozak/zsh-z
+Aloxaf/fzf-tab
+zsh-users/zsh-autosuggestions
+
+# Apply the palette immediately before loading the highlighter itself.
+catppuccin/zsh-syntax-highlighting path:themes/catppuccin_mocha-zsh-syntax-highlighting.zsh
+zsh-users/zsh-syntax-highlighting
