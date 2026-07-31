@@ -1,30 +1,39 @@
 [[ -o interactive ]] || return
 
-typeset -gr ZSH_CONFIG_DIR="${ZDOTDIR:-${XDG_CONFIG_HOME:-$HOME/.config}/zsh}"
+typeset -gx ZSH_CONFIG_DIR="$HOME/.config/zsh"
 
-source_zsh_config() {
-  [[ -r "$ZSH_CONFIG_DIR/$1" ]] && source "$ZSH_CONFIG_DIR/$1"
-}
+setopt NO_NOMATCH
+export KEYTIMEOUT=5
 
-source_zsh_config options.zsh
-source_zsh_config history.zsh
-source_zsh_config completion.zsh
-source_zsh_config keybindings.zsh
-source_zsh_config aliases.zsh
-source_zsh_config tools.zsh
+# Keep history in XDG state and share it between interactive shells.
+typeset -g HISTFILE="${XDG_STATE_HOME:-$HOME/.local/state}/zsh/history"
+typeset -g HISTSIZE=50000
+typeset -g SAVEHIST=50000
 
-profile="${ZSH_PROFILE:-server}"
-source_zsh_config "profiles/$profile.zsh"
-unset profile
+[[ -d "${HISTFILE:h}" ]] || mkdir -p -- "${HISTFILE:h}"
+
+setopt HIST_IGNORE_DUPS
+setopt HIST_IGNORE_ALL_DUPS
+setopt HIST_REDUCE_BLANKS
+setopt INC_APPEND_HISTORY
+setopt SHARE_HISTORY
+
+bindkey -e
+
+source "$ZSH_CONFIG_DIR/aliases.zsh"
+
+if (( $+commands[starship] )); then
+  eval "$(starship init zsh)"
+else
+  PROMPT='%n@%m:%~%# '
+fi
 
 # Machine-specific interactive settings and widgets must load before plugins.
-source_zsh_config local.zsh
+[[ -r "$ZSH_CONFIG_DIR/local.zsh" ]] && source "$ZSH_CONFIG_DIR/local.zsh"
 
 # A child shell may inherit paths already added by its parent.
 typeset -U path PATH
 path=($path)
 
 # Antidote deliberately loads last. zsh-syntax-highlighting is the final plugin.
-source_zsh_config plugins.zsh
-
-unfunction source_zsh_config
+source "$ZSH_CONFIG_DIR/plugins.zsh"

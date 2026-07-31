@@ -5,7 +5,8 @@ for dir in \
   "$HOME/bin" \
   "$HOME/.cargo/bin" \
   "$HOME/.npm-global/bin" \
-  "$HOME/.local/bin"
+  "$HOME/.local/bin" \
+  "$HOME/.local/share/nvim/mason/bin"
 do
   [[ -d "$dir" ]] && path=("$dir" $path)
 done

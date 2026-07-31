@@ -1,2 +1,14 @@
-# Machine-specific interactive settings belong here.
-# This file is tracked as documentation; copy it to local.zsh when needed.
+# Copy this file to local.zsh for machine-specific interactive settings.
+# It is sourced after the shared settings and aliases, but before plugins.
+
+[[ -d /usr/share/zsh/site-functions ]] && fpath+=(/usr/share/zsh/site-functions)
+
+if (( $+commands[kitten] )); then
+  alias ks='kitten ssh -o ServerAliveInterval=5 -o ServerAliveCountMax=3'
+  alias kat='"$HOME/scripts/kat.sh"'
+fi
+
+if [[ -r /usr/share/ShellCrash/menu.sh ]]; then
+  export CRASHDIR=/usr/share/ShellCrash
+  alias crash='bash /usr/share/ShellCrash/menu.sh'
+fi
